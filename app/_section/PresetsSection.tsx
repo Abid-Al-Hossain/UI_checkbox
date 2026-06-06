@@ -250,8 +250,8 @@ export default function PresetsSection({ state, presets, onApply }: Props) {
                   </div>
 
                   <div className="mt-4 flex flex-wrap gap-2">
-                    {preset.tags.map((tag) => (
-                      <Chip key={tag}>{tag}</Chip>
+                    {preset.tags.map((tag, tagIndex) => (
+                      <Chip key={`${tag}-${tagIndex}`}>{tag}</Chip>
                     ))}
                   </div>
                 </article>
