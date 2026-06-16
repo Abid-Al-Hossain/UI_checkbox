@@ -39,14 +39,20 @@ export function buildCheckboxExportPayload(params: CheckboxExportInput) {
     animationType: params.animationType,
     transitionDuration: params.transitionDuration,
     transitionEasing: params.transitionEasing,
+    focusRingEnabled: params.focusRingEnabled,
     focusRingColor: params.focusRingColor,
     focusRingWidth: params.focusRingWidth,
     focusRingOffset: params.focusRingOffset,
     hoverBorderColor: params.hoverBorderColor,
     hoverBgColor: params.hoverBgColor,
     hoverCheckedBgColor: params.hoverCheckedBgColor,
+    hoverCheckedBorderColor: params.hoverCheckedBorderColor,
     disabledOpacity: params.disabledOpacity,
     disabledCursor: params.disabledCursor,
+    disabledUseCustomColors: params.disabledUseCustomColors,
+    disabledBgColor: params.disabledBgColor,
+    disabledTextColor: params.disabledTextColor,
+    disabledBorderColor: params.disabledBorderColor,
     fontFamily: resolveCheckboxFontFamily(params),
     labelFontSize: params.labelFontSize,
     fontSizeUnit: params.fontSizeUnit,
@@ -81,6 +87,9 @@ export function buildCheckboxExportPayload(params: CheckboxExportInput) {
     helperColor: params.helperColor,
     errorText: params.errorText,
     errorColor: params.errorColor,
+    errorBorderColor: params.errorBorderColor,
+    errorBgColor: params.errorBgColor,
+    ariaInvalid: params.ariaInvalid,
     successText: params.successText,
     successColor: params.successColor,
   };
@@ -164,24 +173,32 @@ export default function CheckboxComponent() {
     : "none";
 
   const borderColor =
-    hovered && !CONFIG.disabled
-      ? CONFIG.hoverBorderColor
-      : isOn
-        ? indeterminate
-          ? CONFIG.indeterminateBorderColor
-          : CONFIG.checkedBorderColor
-        : CONFIG.boxBorderColor;
+    CONFIG.disabled && CONFIG.disabledUseCustomColors
+      ? CONFIG.disabledBorderColor
+      : CONFIG.ariaInvalid
+        ? CONFIG.errorBorderColor
+        : hovered && !CONFIG.disabled
+          ? (isOn ? CONFIG.hoverCheckedBorderColor : CONFIG.hoverBorderColor)
+          : isOn
+            ? indeterminate
+              ? CONFIG.indeterminateBorderColor
+              : CONFIG.checkedBorderColor
+            : CONFIG.boxBorderColor;
 
   const backgroundColor =
-    hovered && !CONFIG.disabled
-      ? isOn
-        ? CONFIG.hoverCheckedBgColor
-        : CONFIG.hoverBgColor
-      : isOn
-        ? indeterminate
-          ? CONFIG.indeterminateBgColor
-          : CONFIG.checkedBgColor
-        : CONFIG.boxBgColor;
+    CONFIG.disabled && CONFIG.disabledUseCustomColors
+      ? CONFIG.disabledBgColor
+      : CONFIG.ariaInvalid
+        ? CONFIG.errorBgColor
+        : hovered && !CONFIG.disabled
+          ? isOn
+            ? CONFIG.hoverCheckedBgColor
+            : CONFIG.hoverBgColor
+          : isOn
+            ? indeterminate
+              ? CONFIG.indeterminateBgColor
+              : CONFIG.checkedBgColor
+            : CONFIG.boxBgColor;
 
   const iconStyle =
     CONFIG.animationType === "scale"
@@ -223,6 +240,7 @@ export default function CheckboxComponent() {
           .join(" ") || undefined}
         aria-checked={CONFIG.ariaChecked || (indeterminate ? "mixed" : checked ? "true" : "false")}
         aria-required={CONFIG.ariaRequired || undefined}
+        aria-invalid={CONFIG.ariaInvalid || undefined}
         required={CONFIG.ariaRequired || undefined}
         title={CONFIG.title || undefined}
         tabIndex={CONFIG.tabIndex}
@@ -253,8 +271,8 @@ export default function CheckboxComponent() {
           borderRadius: CONFIG.boxBorderRadius,
           backgroundColor,
           boxShadow,
-          outline: focused && !CONFIG.disabled ? CONFIG.focusRingWidth + "px solid " + CONFIG.focusRingColor : "none",
-          outlineOffset: focused && !CONFIG.disabled ? CONFIG.focusRingOffset + "px" : "0px",
+          outline: focused && !CONFIG.disabled && CONFIG.focusRingEnabled ? CONFIG.focusRingWidth + "px solid " + CONFIG.focusRingColor : "none",
+          outlineOffset: focused && !CONFIG.disabled && CONFIG.focusRingEnabled ? CONFIG.focusRingOffset + "px" : "0px",
           transition,
           flexShrink: 0,
           touchAction: "manipulation",
@@ -285,7 +303,7 @@ export default function CheckboxComponent() {
           fontFamily: CONFIG.fontFamily,
           fontSize: CONFIG.labelFontSize + CONFIG.fontSizeUnit,
           fontWeight: CONFIG.labelFontWeight,
-          color: CONFIG.labelColor,
+          color: CONFIG.disabled && CONFIG.disabledUseCustomColors ? CONFIG.disabledTextColor : CONFIG.labelColor,
           letterSpacing: CONFIG.labelLetterSpacing + CONFIG.letterSpacingUnit,
           lineHeight: CONFIG.labelLineHeight,
           fontStyle: CONFIG.labelFontStyle,

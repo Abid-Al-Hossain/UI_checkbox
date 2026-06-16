@@ -132,13 +132,13 @@ export default function LivePreview({
         fontFamily,
         fontSize: `${state.labelFontSize}${state.fontSizeUnit}`,
         fontWeight: state.labelFontWeight,
-        color: state.labelColor,
         letterSpacing: `${state.labelLetterSpacing}${state.letterSpacingUnit}`,
         lineHeight: state.labelLineHeight,
         fontStyle: state.labelFontStyle,
         textTransform: state.labelTextTransform,
         textDecoration: state.labelUnderline ? "underline" : "none",
         cursor: state.disabled ? state.disabledCursor : "pointer",
+        color: state.disabled && state.disabledUseCustomColors ? state.disabledTextColor : state.labelColor,
       }}
     >
       {state.labelText}
@@ -185,6 +185,7 @@ export default function LivePreview({
             aria-describedby={describedBy}
             aria-checked={ariaChecked}
             aria-required={state.ariaRequired || undefined}
+            aria-invalid={state.ariaInvalid || undefined}
             required={state.ariaRequired || undefined}
             title={state.title || undefined}
             tabIndex={state.tabIndex}
@@ -204,8 +205,8 @@ export default function LivePreview({
               borderRadius: state.boxBorderRadius,
               backgroundColor: boxBg,
               boxShadow,
-              outline: focused && !state.disabled ? `${state.focusRingWidth}px solid ${state.focusRingColor}` : "none",
-              outlineOffset: focused && !state.disabled ? `${state.focusRingOffset}px` : "0px",
+              outline: focused && !state.disabled && state.focusRingEnabled ? `${state.focusRingWidth}px solid ${state.focusRingColor}` : "none",
+              outlineOffset: focused && !state.disabled && state.focusRingEnabled ? `${state.focusRingOffset}px` : "0px",
               transition,
               flexShrink: 0,
               touchAction: "manipulation",

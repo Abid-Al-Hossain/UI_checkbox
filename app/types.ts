@@ -49,6 +49,7 @@ export type CheckboxState = {
   transitionEasing: TransitionEasing;
 
   // ── Focus State (numeric) ──
+  focusRingEnabled: boolean;
   focusRingColor: string;
   focusRingWidth: number;
   focusRingOffset: number;
@@ -57,10 +58,15 @@ export type CheckboxState = {
   hoverBorderColor: string;
   hoverBgColor: string;
   hoverCheckedBgColor: string;
+  hoverCheckedBorderColor: string;
 
   // ── Disabled State ──
   disabledOpacity: number;
   disabledCursor: "not-allowed" | "default";
+  disabledUseCustomColors: boolean;
+  disabledBgColor: string;
+  disabledTextColor: string;
+  disabledBorderColor: string;
 
   // ── Label Typography ──
   fontBucket: "system" | "google";
@@ -104,6 +110,9 @@ export type CheckboxState = {
   helperColor: string;
   errorText: string;
   errorColor: string;
+  errorBorderColor: string;
+  errorBgColor: string;
+  ariaInvalid: boolean;
   successText: string;
   successColor: string;
 
@@ -155,6 +164,7 @@ export const INITIAL_STATE: CheckboxState = {
   transitionEasing: "ease",
 
   // ── Focus ──
+  focusRingEnabled: true,
   focusRingColor: "#3b82f6",
   focusRingWidth: 3,
   focusRingOffset: 2,
@@ -163,10 +173,15 @@ export const INITIAL_STATE: CheckboxState = {
   hoverBorderColor: "#3b82f6",
   hoverBgColor: "#eff6ff",
   hoverCheckedBgColor: "#2563eb",
+  hoverCheckedBorderColor: "#1d4ed8",
 
   // ── Disabled ──
   disabledOpacity: 0.5,
   disabledCursor: "not-allowed",
+  disabledUseCustomColors: false,
+  disabledBgColor: "#e2e8f0",
+  disabledTextColor: "#94a3b8",
+  disabledBorderColor: "#cbd5e1",
 
   // ── Label Typography ──
   fontBucket: "system",
@@ -210,6 +225,9 @@ export const INITIAL_STATE: CheckboxState = {
   helperColor: "#64748b",
   errorText: "",
   errorColor: "#ef4444",
+  errorBorderColor: "#ef4444",
+  errorBgColor: "#fef2f2",
+  ariaInvalid: false,
   successText: "",
   successColor: "#10b981",
 

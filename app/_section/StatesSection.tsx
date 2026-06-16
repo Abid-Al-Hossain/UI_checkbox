@@ -57,6 +57,12 @@ export default function StatesSection({
             value={state.hoverCheckedBgColor}
             onChange={setKey("hoverCheckedBgColor")}
           />
+          <ColorControl
+            label="Checked Hover Border"
+            palette={PRESET_COLORS}
+            value={state.hoverCheckedBorderColor}
+            onChange={setKey("hoverCheckedBorderColor")}
+          />
         </div>
 
         {/* Disabled */}
@@ -85,6 +91,66 @@ export default function StatesSection({
               ]}
             />
           </LabeledField>
+          <LabeledField label="Use Custom Colors">
+            <Segmented
+              value={state.disabledUseCustomColors ? "true" : "false"}
+              onChange={(v) => setKey("disabledUseCustomColors")(v === "true")}
+              items={[
+                { value: "false", label: "Off" },
+                { value: "true", label: "On" },
+              ]}
+            />
+          </LabeledField>
+          <ColorControl
+            label="Disabled Background"
+            palette={PRESET_COLORS}
+            value={state.disabledBgColor}
+            onChange={setKey("disabledBgColor")}
+          />
+          <ColorControl
+            label="Disabled Text"
+            palette={PRESET_COLORS}
+            value={state.disabledTextColor}
+            onChange={setKey("disabledTextColor")}
+          />
+          <ColorControl
+            label="Disabled Border"
+            palette={PRESET_COLORS}
+            value={state.disabledBorderColor}
+            onChange={setKey("disabledBorderColor")}
+          />
+        </div>
+
+        {/* Error */}
+        <div className="pt-4 border-t border-slate-700/50 space-y-3">
+          <div
+            className="text-xs font-semibold uppercase tracking-wider"
+            style={{ color: "var(--muted)" }}
+          >
+            Validation
+          </div>
+          <LabeledField label="Invalid (aria-invalid)">
+            <Segmented
+              value={state.ariaInvalid ? "true" : "false"}
+              onChange={(v) => setKey("ariaInvalid")(v === "true")}
+              items={[
+                { value: "false", label: "No" },
+                { value: "true", label: "Yes" },
+              ]}
+            />
+          </LabeledField>
+          <ColorControl
+            label="Error Border"
+            palette={PRESET_COLORS}
+            value={state.errorBorderColor}
+            onChange={setKey("errorBorderColor")}
+          />
+          <ColorControl
+            label="Error Background"
+            palette={PRESET_COLORS}
+            value={state.errorBgColor}
+            onChange={setKey("errorBgColor")}
+          />
         </div>
       </div>
     </SectionCard>

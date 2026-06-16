@@ -37,7 +37,11 @@ export function resolveCheckboxBorderColor(
   indeterminate: boolean,
   hovered: boolean,
 ): string {
-  if (hovered && !state.disabled) return state.hoverBorderColor;
+  if (state.disabled && state.disabledUseCustomColors) return state.disabledBorderColor;
+  if (state.ariaInvalid) return state.errorBorderColor;
+  if (hovered && !state.disabled) {
+    return checked || indeterminate ? state.hoverCheckedBorderColor : state.hoverBorderColor;
+  }
   if (indeterminate) return state.indeterminateBorderColor;
   if (checked) return state.checkedBorderColor;
   return state.boxBorderColor;
@@ -49,6 +53,8 @@ export function resolveCheckboxBackgroundColor(
   indeterminate: boolean,
   hovered: boolean,
 ): string {
+  if (state.disabled && state.disabledUseCustomColors) return state.disabledBgColor;
+  if (state.ariaInvalid) return state.errorBgColor;
   if (hovered && !state.disabled) {
     return checked || indeterminate
       ? state.hoverCheckedBgColor
