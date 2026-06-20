@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { CheckboxState } from "../types";
+import { ensureReadable } from "@/components/shared/color/wcag";
 import {
   resolveCheckboxAriaChecked,
   resolveCheckboxBackgroundColor,
@@ -65,9 +66,11 @@ function CheckmarkSVG({ style: s }: { style: CheckboxState }) {
 export default function LivePreview({
   state,
   resetKey = 0,
+  canvasBg = "#0b1220",
 }: {
   state: CheckboxState;
   resetKey?: number;
+  canvasBg?: string;
 }) {
   const [checked, setChecked] = useState(state.checked);
   const [indeterminate, setIndeterminate] = useState(state.indeterminate);
@@ -138,7 +141,7 @@ export default function LivePreview({
         textTransform: state.labelTextTransform,
         textDecoration: state.labelUnderline ? "underline" : "none",
         cursor: state.disabled ? state.disabledCursor : "pointer",
-        color: state.disabled && state.disabledUseCustomColors ? state.disabledTextColor : state.labelColor,
+        color: state.disabled && state.disabledUseCustomColors ? state.disabledTextColor : ensureReadable(state.labelColor, canvasBg),
       }}
     >
       {state.labelText}

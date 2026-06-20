@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useMemo } from "react";
+import ContrastGuard from "@/components/shared/color/ContrastGuard";
 import AppShell from "@/components/shared/layout/AppShell";
 import useHydrated from "@/components/hooks/useHydrated";
 import { useHistoryState } from "@/components/hooks/useHistoryState";
@@ -158,11 +159,10 @@ export default function CheckboxPlaygroundPage() {
       setPreviewBgMode={setPreviewBgMode}
       previewBgInput={previewBgInput}
       setPreviewBgInput={setPreviewBgInput}
-      previewNode={<LivePreview state={state} resetKey={previewResetKey} />}
+      previewNode={<LivePreview state={state} resetKey={previewResetKey} canvasBg={previewBgInput} />}
       code={exportCode.content}
     />
   );
-
   return (
     <AppShell contentOverflow="hidden">
       <PlaygroundLayout
@@ -171,6 +171,7 @@ export default function CheckboxPlaygroundPage() {
         controls={controls}
         preview={preview}
       />
-    </AppShell>
+
+<ContrastGuard /></AppShell>
   );
 }
